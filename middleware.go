@@ -18,6 +18,7 @@ func (s *Server) checkSignature() gin.HandlerFunc {
 				"msg":  "无效timestamp",
 			})
 			c.Abort()
+			return
 		}
 
 		appID := c.Query("appid")

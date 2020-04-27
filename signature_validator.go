@@ -3,6 +3,7 @@ package wxccserver
 import (
 	"crypto/hmac"
 	"crypto/md5"
+	"encoding/base64"
 	"errors"
 	"strconv"
 	"time"
@@ -41,7 +42,12 @@ func (validator *HMacSignatureValidator) Validate(appID string, timestamp int64,
 	mac := hmac.New(md5.New, []byte(validator.key))
 	mac.Write([]byte(appID + strconv.FormatInt(timestamp, 10)))
 
-	if hmac.Equal(mac.Sum(nil), []byte(signature)) {
+	s, err := base64.URLEncoding.DecodeString(signature)
+	if err != nil {
+		return ErrInvalid
+	}
+
+	if hmac.Equal(mac.Sum(nil), []byte(s)) {
 		return nil
 	}
 

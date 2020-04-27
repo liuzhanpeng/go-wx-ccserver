@@ -19,9 +19,12 @@ type Server struct {
 
 // NewServer 创建中控服务器
 func NewServer(config *Config) *Server {
+	storeManger := NewStoreManager(NewTomlAccountProvider(config.AccountsFile), NewWxFetcher(), config.AheadTimeout)
+	storeManger.LoadAccounts()
+
 	return &Server{
 		config:       config,
-		storeManager: NewStoreManager(NewTomlAccountProvider(config.AccountsFile), NewWxFetcher(), config.AheadTimeout),
+		storeManager: storeManger,
 	}
 }
 

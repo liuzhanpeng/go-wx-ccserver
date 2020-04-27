@@ -39,7 +39,7 @@ func (m *StoreManager) LoadAccounts() error {
 
 	m.items = make(map[string]*StoreItem, len(accounts))
 	for _, account := range accounts {
-		m.items[account.AppID] = NewStoreItem(account.AppID, account.AppSecret)
+		m.items[account.AppID] = NewStoreItem(account.AppID, account.AppSecret, account.SignatureKey)
 	}
 
 	return nil

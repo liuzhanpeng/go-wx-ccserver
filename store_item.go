@@ -18,10 +18,11 @@ type StoreItem struct {
 }
 
 // NewStoreItem 创建存储项
-func NewStoreItem(appID, appSecret string) *StoreItem {
+func NewStoreItem(appID, appSecret, signatureKey string) *StoreItem {
 	return &StoreItem{
-		appID:     appID,
-		appSecret: appSecret,
+		appID:        appID,
+		appSecret:    appSecret,
+		signatureKey: signatureKey,
 	}
 }
 
