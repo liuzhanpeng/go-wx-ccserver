@@ -11,17 +11,19 @@ const storeItemSize = 32 // 初始存储项大小
 // StoreManager 存储管理器; 用于管理各个公众号的access token和jsapi ticket
 type StoreManager struct {
 	items        map[string]*StoreItem
-	aheadTimeout int
 	provider     AccountProvider
+	fetcher      Fetcher
+	aheadTimeout int
 	sync.RWMutex
 }
 
 // NewStoreManager 创建存储管理器
-func NewStoreManager(aheadTimeout int, provider AccountProvider) *StoreManager {
+func NewStoreManager(provider AccountProvider, fetcher Fetcher, aheadTimeout int) *StoreManager {
 	return &StoreManager{
 		items:        make(map[string]*StoreItem, storeItemSize),
-		aheadTimeout: aheadTimeout,
 		provider:     provider,
+		fetcher:      fetcher,
+		aheadTimeout: aheadTimeout,
 	}
 }
 
@@ -50,6 +52,17 @@ func (m *StoreManager) Token(appID string) (string, error) {
 		return "", fmt.Errorf("找不到appid为[%s]的公众号账号信息", appID)
 	}
 
+	if item.IsValidToken() {
+		return item.token, nil
+	}
+
+	res, err := m.fetcher.FetchToken(item.appID, item.appSecret)
+	if err != nil {
+		return "", err
+	}
+
+	item.SetToken(res.AccessToken, time.Now().Add(time.Duration(res.ExpiresIn-m.aheadTimeout)*time.Second))
+
 	return item.token, nil
 }
 
@@ -66,6 +79,22 @@ func (m *StoreManager) Ticket(appID string) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("找不到appid为[%s]的公众号账号信息", appID)
 	}
+
+	if item.IsValidTicket() {
+		return item.ticket, nil
+	}
+
+	token, err := m.Token(appID)
+	if err != nil {
+		return "", err
+	}
+
+	res, err := m.fetcher.FetchTicket(token)
+	if err != nil {
+		return "", err
+	}
+
+	item.SetTicket(res.Ticket, time.Now().Add(time.Duration(res.ExpiresIn-m.aheadTimeout)*time.Second))
 
 	return item.token, nil
 }
