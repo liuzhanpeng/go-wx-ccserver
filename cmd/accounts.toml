@@ -1,0 +1,11 @@
+# 公众号账号配置
+
+[[accounts]]
+AppID = "wxebb928c1503c7367"
+AppSecret = "98b149fe54036385df2a981d6bbb8008"
+SignatureKey = "testeaaesttest"
+
+[[accounts]]
+AppID = "appidB"
+AppSecret = "secretB"
+SignatureKey = ""

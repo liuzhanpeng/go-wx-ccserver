@@ -1,0 +1,32 @@
+# 服务监听端口
+Port = 9627
+
+# 启用TLS
+EnableTLS = false
+TLSCertFile = ""
+TLSKeyFile = ""
+
+# 公众号账号配置文件
+AccountsFile = "./accounts.toml"
+
+# access token 和 jsapi ticket提前超时时间(单位: 秒)
+AheadTimeout = 60
+
+# 允许访问的ip; 为空表示不限制
+AllowIP = []
+
+[Signature]
+# 默认签名密钥
+Key = "testtesttesttest"
+# 签名超时时间(单位:秒)
+Timeout = 20
+
+[Log]
+#日志记录级别
+Level = "info"
+# 日志保存路径
+Path = "./logs"
+# 日志分割时间(单位:时)
+RotationTime = 24
+# 日志最大保存时间(单位:时)
+MaxAge = 720
