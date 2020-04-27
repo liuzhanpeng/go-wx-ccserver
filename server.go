@@ -21,7 +21,7 @@ type Server struct {
 func NewServer(config *Config) *Server {
 	return &Server{
 		config:       config,
-		storeManager: NewStoreManager(config.AheadTimeout, NewTomlAccountProvider(config.AccountsFile)),
+		storeManager: NewStoreManager(NewTomlAccountProvider(config.AccountsFile), NewWxFetcher(), config.AheadTimeout),
 	}
 }
 
