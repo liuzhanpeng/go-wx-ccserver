@@ -33,7 +33,7 @@ func (s *Server) checkSignature() gin.HandlerFunc {
 		validator := NewHMacSignatureValidator(key, s.config.Signature.Timeout)
 		if err := validator.Validate(appID, timestamp, signature); err != nil {
 
-			logrus.Warnf("[%v]签名验证失败:", appID, err.Error())
+			logrus.Warnf("[%v]签名验证失败:%v", appID, err.Error())
 
 			c.JSON(200, gin.H{
 				"code": 501,

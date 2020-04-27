@@ -96,7 +96,7 @@ func (m *StoreManager) Ticket(appID string) (string, error) {
 
 	item.SetTicket(res.Ticket, time.Now().Add(time.Duration(res.ExpiresIn-m.aheadTimeout)*time.Second))
 
-	return item.token, nil
+	return item.ticket, nil
 }
 
 // RemoveTicket 移除ticket
