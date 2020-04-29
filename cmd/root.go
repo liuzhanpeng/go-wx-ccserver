@@ -17,10 +17,11 @@ package main
 
 import (
 	"log"
-	"lzpeng/wxccserver"
 	"os"
 	"path/filepath"
 	"time"
+
+	wxccserver "github.com/liuzhanpeng/go-wx-ccserver"
 
 	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"github.com/rifflock/lfshook"

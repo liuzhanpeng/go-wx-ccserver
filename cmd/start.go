@@ -1,12 +1,13 @@
 package main
 
 import (
-	"lzpeng/wxccserver"
 	"os"
 	"os/exec"
 	"os/signal"
 	"path/filepath"
 	"syscall"
+
+	wxccserver "github.com/liuzhanpeng/go-wx-ccserver"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"

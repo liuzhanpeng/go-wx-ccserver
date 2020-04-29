@@ -1,4 +1,4 @@
-module lzpeng/wxccserver
+module github.com/liuzhanpeng/go-wx-ccserver
 
 go 1.13
 
