@@ -4,7 +4,6 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 
 	wxccserver "github.com/liuzhanpeng/go-wx-ccserver"
@@ -43,10 +42,15 @@ var startCmd = &cobra.Command{
 					logrus.Info("stopped")
 					return
 				case syscall.SIGUSR1:
+					command := exec.Command(os.Args[0], "start")
+					command.Stdout = os.Stdout
+					command.Stderr = os.Stderr
+					if err := command.Start(); err != nil {
+						logrus.Error(err)
+					}
+
 					srv.Stop()
 
-					command := exec.Command("./"+filepath.Base(os.Args[0]), "start")
-					command.Start()
 					return
 				case syscall.SIGUSR2:
 					if err := srv.Reload(); err != nil {
